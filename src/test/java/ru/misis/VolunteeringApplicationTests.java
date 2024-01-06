@@ -10,4 +10,9 @@ class VolunteeringApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	public void applicationContextTest() {
+		VolunteeringApplication.main(new String[] {});
+	}
+
 }
