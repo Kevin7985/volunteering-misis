@@ -5,6 +5,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.misis.auth.exceptions.AuthFailed;
 import ru.misis.error.model.ApiError;
 import ru.misis.user.exceptions.UserAlreadyExists;
 import ru.misis.user.exceptions.UserNotFound;
@@ -40,6 +41,17 @@ public class ErrorHandler {
     public ApiError entityNotFoundHandler(final Exception e) {
         return new ApiError(
                 HttpStatus.NOT_FOUND.name(),
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler({
+            AuthFailed.class
+    })
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ApiError serviceUnavailableHandler(final Exception e) {
+        return new ApiError(
+                HttpStatus.SERVICE_UNAVAILABLE.name(),
                 e.getMessage()
         );
     }
