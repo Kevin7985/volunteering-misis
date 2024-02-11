@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.misis.auth.exceptions.AuthFailed;
+import ru.misis.categories.exceptions.CategoryNotFound;
+import ru.misis.categories.exceptions.CategoryValidation;
 import ru.misis.error.model.ApiError;
 import ru.misis.skills.exceptions.SkillNotFound;
+import ru.misis.skills.exceptions.SkillValidation;
 import ru.misis.user.exceptions.UserAlreadyExists;
 import ru.misis.user.exceptions.UserNotFound;
 
@@ -37,12 +40,25 @@ public class ErrorHandler {
 
     @ExceptionHandler({
             UserNotFound.class,
-            SkillNotFound.class
+            SkillNotFound.class,
+            CategoryNotFound.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError entityNotFoundHandler(final Exception e) {
         return new ApiError(
                 HttpStatus.NOT_FOUND.name(),
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler({
+            SkillValidation.class,
+            CategoryValidation.class
+    })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError badRequestHandler(final Exception e) {
+        return new ApiError(
+                HttpStatus.BAD_REQUEST.name(),
                 e.getMessage()
         );
     }

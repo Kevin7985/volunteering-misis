@@ -20,19 +20,18 @@ import java.util.UUID;
 @Validated
 @RequiredArgsConstructor
 @Tag(name = "Skills", description = "Работа с навыками на платформе")
+@SecurityRequirement(name = "Bearer Authentication")
 public class SkillController {
     private final SkillService skillService;
 
     @PostMapping
     @Operation(summary = "Создание нового навыка")
-    @SecurityRequirement(name = "Bearer Authentication")
     public SkillDto addSkill(@RequestBody @Valid NewSkillDto skillDto) {
         return skillService.addSkill(skillDto);
     }
 
     @GetMapping
     @Operation(summary = "Поиск навыков по названию")
-    @SecurityRequirement(name = "Bearer Authentication")
     public List<SkillDto> findSkills(
             @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") @Min(0) Integer from,
@@ -42,21 +41,18 @@ public class SkillController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Получение навыка по идентификатору")
-    @SecurityRequirement(name = "Bearer Authentication")
     public SkillDto getSkillById(@PathVariable UUID id) {
         return skillService.getSkillById(id);
     }
 
     @PatchMapping("/{id}")
     @Operation(summary = "Обновление навыка по идентификатору")
-    @SecurityRequirement(name = "Bearer Authentication")
     public SkillDto updateSkillById(@PathVariable UUID id, @RequestBody UpdateSkillDto skillDto) {
         return skillService.updateSkillById(id, skillDto);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление навыка по идентификатору")
-    @SecurityRequirement(name = "Bearer Authentication")
     public void deleteSkillById(@PathVariable UUID id) {
         skillService.deleteSkillById(id);
     }
