@@ -2,6 +2,10 @@ package ru.misis.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.misis.categories.dto.CategoryDto;
+import ru.misis.categories.dto.CategoryMapper;
+import ru.misis.categories.dto.NewCategoryDto;
+import ru.misis.categories.model.Category;
 import ru.misis.skills.dto.NewSkillDto;
 import ru.misis.skills.dto.SkillDto;
 import ru.misis.skills.dto.SkillMapper;
@@ -16,6 +20,7 @@ import ru.misis.user.model.User;
 public class MapperService {
     private final UserMapper userMapper;
     private final SkillMapper skillMapper;
+    private final CategoryMapper categoryMapper;
 
     public User toUser(NewUserDto userDto) {
         return userMapper.toUser(userDto);
@@ -31,5 +36,13 @@ public class MapperService {
 
     public SkillDto toSkillDto(Skill skill) {
         return skillMapper.toSkillDto(skill);
+    }
+
+    public Category toCategory(NewCategoryDto categoryDto) {
+        return categoryMapper.toCategory(categoryDto);
+    }
+
+    public CategoryDto toCategoryDto(Category category) {
+        return categoryMapper.toCategoryDto(category);
     }
 }

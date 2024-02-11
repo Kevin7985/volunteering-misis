@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.misis.service.MapperService;
-import ru.misis.service.VaildationService;
+import ru.misis.service.ValidationService;
 import ru.misis.skills.dto.NewSkillDto;
 import ru.misis.skills.dto.SkillDto;
 import ru.misis.skills.dto.UpdateSkillDto;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @Slf4j
 public class SkillServiceImpl implements SkillService {
     private final MapperService mapperService;
-    private final VaildationService vaildationService;
+    private final ValidationService validationService;
     private final SkillRepository skillRepository;
 
     @Override
@@ -59,7 +59,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillDto getSkillById(UUID id) {
-        Skill skill = vaildationService.validateSkill(id);
+        Skill skill = validationService.validateSkill(id);
 
         log.info("Получение навыка по id = " + id);
         return mapperService.toSkillDto(skill);
@@ -67,7 +67,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillDto updateSkillById(UUID id, UpdateSkillDto skillDto) {
-        Skill skill = vaildationService.validateSkill(id);
+        Skill skill = validationService.validateSkill(id);
 
         skill.setTitle(skillDto.getTitle() == null ? skill.getTitle() : skillDto.getTitle());
         skill = skillRepository.save(skill);
@@ -78,7 +78,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public void deleteSkillById(UUID id) {
-        vaildationService.validateSkill(id);
+        validationService.validateSkill(id);
 
         log.info("Удалён навык с id = " + id);
         skillRepository.deleteById(id);

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.misis.service.MapperService;
-import ru.misis.service.VaildationService;
+import ru.misis.service.ValidationService;
 import ru.misis.user.dto.NewUserDto;
 import ru.misis.user.dto.UpdateUserDto;
 import ru.misis.user.dto.UserDto;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final MapperService mapperService;
-    private final VaildationService vaildationService;
+    private final ValidationService validationService;
     private final UserRepository userRepository;
 
     @Override
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(UUID id) {
-        User user = vaildationService.validateUser(id);
+        User user = validationService.validateUser(id);
 
         log.info("Получение пользователя по id = " + id);
         return mapperService.toUserDto(user);
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUserById(UUID id, UpdateUserDto userDto) {
-        User user = vaildationService.validateUser(id);
+        User user = validationService.validateUser(id);
 
         user.setFirstName(userDto.getFirstName() == null ? user.getFirstName() : userDto.getFirstName());
         user.setLastName(userDto.getLastName() == null ? user.getLastName() : userDto.getLastName());
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(UUID id) {
-        vaildationService.validateUser(id);
+        validationService.validateUser(id);
 
         log.info("Удаление пользователя по id = " + id);
         userRepository.deleteById(id);
