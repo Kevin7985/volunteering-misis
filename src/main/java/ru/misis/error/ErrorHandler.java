@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.misis.auth.exceptions.AuthFailed;
 import ru.misis.error.model.ApiError;
+import ru.misis.skills.exceptions.SkillNotFound;
 import ru.misis.user.exceptions.UserAlreadyExists;
 import ru.misis.user.exceptions.UserNotFound;
 
@@ -35,7 +36,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler({
-            UserNotFound.class
+            UserNotFound.class,
+            SkillNotFound.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError entityNotFoundHandler(final Exception e) {
