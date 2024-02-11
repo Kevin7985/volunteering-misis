@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.misis.auth.exceptions.AuthFailed;
-import ru.misis.categories.exceptions.CategoryNotFound;
-import ru.misis.categories.exceptions.CategoryValidation;
+import ru.misis.category.exceptions.CategoryNotFound;
+import ru.misis.category.exceptions.CategoryValidation;
 import ru.misis.error.model.ApiError;
-import ru.misis.skills.exceptions.SkillNotFound;
-import ru.misis.skills.exceptions.SkillValidation;
+import ru.misis.skill.exceptions.SkillNotFound;
+import ru.misis.skill.exceptions.SkillValidation;
 import ru.misis.user.exceptions.UserAlreadyExists;
 import ru.misis.user.exceptions.UserNotFound;
 

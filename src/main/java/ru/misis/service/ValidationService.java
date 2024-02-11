@@ -2,12 +2,12 @@ package ru.misis.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.misis.categories.CategoryRepository;
-import ru.misis.categories.exceptions.CategoryNotFound;
-import ru.misis.categories.model.Category;
-import ru.misis.skills.SkillRepository;
-import ru.misis.skills.exceptions.SkillNotFound;
-import ru.misis.skills.model.Skill;
+import ru.misis.category.CategoryRepository;
+import ru.misis.category.exceptions.CategoryNotFound;
+import ru.misis.category.model.Category;
+import ru.misis.skill.SkillRepository;
+import ru.misis.skill.exceptions.SkillNotFound;
+import ru.misis.skill.model.Skill;
 import ru.misis.user.UserRepository;
 import ru.misis.user.exceptions.UserNotFound;
 import ru.misis.user.model.User;
