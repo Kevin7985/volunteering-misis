@@ -29,17 +29,3 @@ CREATE TABLE IF NOT EXISTS categories (
     title VARCHAR(255) NOT NULL,
     CONSTRAINT PK_CATEGORY PRIMARY KEY (id)
 );
-
-CREATE TABLE IF NOT EXISTS events (
-    id UUID DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description VARCHAR(2000),
-    avatar VARCHAR(500),
-    category_id UUID,
-    location VARCHAR(1000),
-    start_date
-    CONSTRAINT PK_EVENT PRIMARY KEY (id),
-    CONSTRAINT FK_USER_FOR_EVENT FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    CONSTRAINT FK_CATEGORY_FOR_EVENT FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
-);
