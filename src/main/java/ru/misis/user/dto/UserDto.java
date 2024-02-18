@@ -14,6 +14,7 @@ public class UserDto {
     private final String firstName;
     private final String lastName;
     private final String middleName;
+    private final String about;
     private final Boolean isModerator;
     private final Boolean isStaff;
 }

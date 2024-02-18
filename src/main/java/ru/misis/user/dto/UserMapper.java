@@ -13,6 +13,7 @@ public class UserMapper {
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getMiddleName(),
+                "",
                 false,
                 false
         );
@@ -26,6 +27,7 @@ public class UserMapper {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getMiddleName(),
+                "",
                 user.getIsModerator(),
                 user.getIsStaff()
         );

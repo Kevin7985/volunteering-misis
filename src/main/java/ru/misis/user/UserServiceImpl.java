@@ -94,6 +94,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDto.getFirstName() == null ? user.getFirstName() : userDto.getFirstName());
         user.setLastName(userDto.getLastName() == null ? user.getLastName() : userDto.getLastName());
         user.setMiddleName(userDto.getMiddleName() == null ? user.getMiddleName() : userDto.getMiddleName());
+        user.setAbout(userDto.getAbout() == null ? user.getAbout() : userDto.getAbout());
 
         log.info("Обновление данных пользователя (id = " + id + "): " + userDto);
         return mapperService.toUserDto(userRepository.save(user));

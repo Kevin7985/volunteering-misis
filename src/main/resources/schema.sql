@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     middle_name VARCHAR(255),
+    about VARCHAR(5000),
     is_moderator BOOLEAN,
     is_staff BOOLEAN,
     CONSTRAINT PK_USER PRIMARY KEY (id),

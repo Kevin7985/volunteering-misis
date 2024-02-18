@@ -22,6 +22,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String middleName;
+    private String about;
     private Boolean isModerator;
     private Boolean isStaff;
 }
