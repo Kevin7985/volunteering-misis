@@ -13,7 +13,7 @@ public interface UserService {
 
     List<UserDto> findUsers(String email, Integer from, Integer size);
 
-    UserDto getUserById(Authentication auth, UUID id);
+    UserDto getUserById(UUID id);
 
     UserDto updateUserById(Authentication auth, UUID id, UpdateUserDto userDto);
 

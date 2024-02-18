@@ -74,14 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(Authentication auth, UUID id) {
+    public UserDto getUserById(UUID id) {
         User user = validationService.validateUser(id);
-
-        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
-            if (!user.getId().equals(UUID.fromString(auth.getName()))) {
-                throw new Forbidden();
-            }
-        }
 
         log.info("Получение пользователя по id = " + id);
         return mapperService.toUserDto(user);

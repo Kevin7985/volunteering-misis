@@ -46,8 +46,8 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Получение пользователя по идентификатору")
     @SecurityRequirement(name = "Bearer Authentication")
-    public UserDto getUserById(Authentication auth, @PathVariable UUID id) {
-        return userService.getUserById(auth, id);
+    public UserDto getUserById(@PathVariable UUID id) {
+        return userService.getUserById(id);
     }
 
     @PatchMapping("/{id}")
