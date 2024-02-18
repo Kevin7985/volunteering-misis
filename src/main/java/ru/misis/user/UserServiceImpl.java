@@ -6,7 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import ru.misis.error.exceptions.Forbidden;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
 import ru.misis.user.dto.NewUserDto;
@@ -71,16 +74,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(UUID id) {
+    public UserDto getUserById(Authentication auth, UUID id) {
         User user = validationService.validateUser(id);
+
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            if (!user.getId().equals(UUID.fromString(auth.getName()))) {
+                throw new Forbidden();
+            }
+        }
 
         log.info("Получение пользователя по id = " + id);
         return mapperService.toUserDto(user);
     }
 
     @Override
-    public UserDto updateUserById(UUID id, UpdateUserDto userDto) {
+    public UserDto updateUserById(Authentication auth, UUID id, UpdateUserDto userDto) {
         User user = validationService.validateUser(id);
+
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            if (!user.getId().equals(UUID.fromString(auth.getName()))) {
+                throw new Forbidden();
+            }
+        }
 
         user.setFirstName(userDto.getFirstName() == null ? user.getFirstName() : userDto.getFirstName());
         user.setLastName(userDto.getLastName() == null ? user.getLastName() : userDto.getLastName());
@@ -91,8 +106,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(UUID id) {
-        validationService.validateUser(id);
+    public void deleteUserById(Authentication auth, UUID id) {
+        User user = validationService.validateUser(id);
+
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            if (!user.getId().equals(UUID.fromString(auth.getName()))) {
+                throw new Forbidden();
+            }
+        }
 
         log.info("Удаление пользователя по id = " + id);
         userRepository.deleteById(id);

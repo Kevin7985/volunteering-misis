@@ -12,7 +12,9 @@ public class UserMapper {
                 userDto.getEmail(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getMiddleName()
+                userDto.getMiddleName(),
+                false,
+                false
         );
     }
 
@@ -23,7 +25,9 @@ public class UserMapper {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getMiddleName()
+                user.getMiddleName(),
+                user.getIsModerator(),
+                user.getIsStaff()
         );
     }
 }

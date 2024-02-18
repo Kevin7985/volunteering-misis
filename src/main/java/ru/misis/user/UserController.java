@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.misis.user.dto.NewUserDto;
@@ -45,22 +46,22 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Получение пользователя по идентификатору")
     @SecurityRequirement(name = "Bearer Authentication")
-    public UserDto getUserById(@PathVariable UUID id) {
-        return userService.getUserById(id);
+    public UserDto getUserById(Authentication auth, @PathVariable UUID id) {
+        return userService.getUserById(auth, id);
     }
 
     @PatchMapping("/{id}")
     @Operation(summary = "Обновление данных пользователя по идентификатору")
     @SecurityRequirement(name = "Bearer Authentication")
-    public UserDto updateUserById(@PathVariable UUID id, @RequestBody UpdateUserDto userDto) {
-        return userService.updateUserById(id, userDto);
+    public UserDto updateUserById(Authentication auth, @PathVariable UUID id, @RequestBody UpdateUserDto userDto) {
+        return userService.updateUserById(auth, id, userDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Удаление пользователя по идентификатору")
     @SecurityRequirement(name = "Bearer Authentication")
-    public void deleteUserById(@PathVariable UUID id) {
-        userService.deleteUserById(id);
+    public void deleteUserById(Authentication auth, @PathVariable UUID id) {
+        userService.deleteUserById(auth, id);
     }
 }

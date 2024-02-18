@@ -41,7 +41,9 @@ public class AuthServiceImpl implements AuthService {
                     profile.getEmail(),
                     profile.getGiven_name(),
                     profile.getFamily_name(),
-                    ""
+                    "",
+                    false,
+                    false
             );
 
             user = userRepository.save(user);
