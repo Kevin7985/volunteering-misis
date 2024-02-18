@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.misis.auth.exceptions.AuthFailed;
 import ru.misis.category.exceptions.CategoryNotFound;
 import ru.misis.category.exceptions.CategoryValidation;
+import ru.misis.error.exceptions.Forbidden;
 import ru.misis.error.model.ApiError;
 import ru.misis.skill.exceptions.SkillNotFound;
 import ru.misis.skill.exceptions.SkillValidation;
@@ -70,6 +71,17 @@ public class ErrorHandler {
     public ApiError serviceUnavailableHandler(final Exception e) {
         return new ApiError(
                 HttpStatus.SERVICE_UNAVAILABLE.name(),
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler({
+            Forbidden.class
+    })
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ApiError forbiddenHandler(final Exception e) {
+        return new ApiError(
+                HttpStatus.FORBIDDEN.name(),
                 e.getMessage()
         );
     }
