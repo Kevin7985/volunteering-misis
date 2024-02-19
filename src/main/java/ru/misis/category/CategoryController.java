@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.misis.category.dto.CategoryDto;
@@ -49,14 +50,14 @@ public class CategoryController {
 
     @PatchMapping("/{id}")
     @Operation(summary = "Обновление категории по идентификатору")
-    public CategoryDto updateCategoryById(@PathVariable UUID id, @RequestBody UpdateCategoryDto categoryDto) {
-        return categoryService.updateCategoryById(id, categoryDto);
+    public CategoryDto updateCategoryById(Authentication auth, @PathVariable UUID id, @RequestBody UpdateCategoryDto categoryDto) {
+        return categoryService.updateCategoryById(auth, id, categoryDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Удаление категории по идентификатору")
-    public void deleteCategoryById(UUID id) {
-        categoryService.deleteCategoryById(id);
+    public void deleteCategoryById(Authentication auth, UUID id) {
+        categoryService.deleteCategoryById(auth, id);
     }
 }

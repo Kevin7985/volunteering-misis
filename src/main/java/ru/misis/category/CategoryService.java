@@ -1,5 +1,6 @@
 package ru.misis.category;
 
+import org.springframework.security.core.Authentication;
 import ru.misis.category.dto.CategoryDto;
 import ru.misis.category.dto.NewCategoryDto;
 import ru.misis.category.dto.UpdateCategoryDto;
@@ -14,7 +15,7 @@ public interface CategoryService {
 
     CategoryDto getCategoryById(UUID id);
 
-    CategoryDto updateCategoryById(UUID id, UpdateCategoryDto categoryDto);
+    CategoryDto updateCategoryById(Authentication auth, UUID id, UpdateCategoryDto categoryDto);
 
-    void deleteCategoryById(UUID id);
+    void deleteCategoryById(Authentication auth, UUID id);
 }
