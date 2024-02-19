@@ -12,6 +12,13 @@ public class SkillMapper {
         );
     }
 
+    public Skill toSkill(SkillDto skillDto) {
+        return new Skill(
+                skillDto.getId(),
+                skillDto.getTitle()
+        );
+    }
+
     public SkillDto toSkillDto(Skill skill) {
         return new SkillDto(
                 skill.getId(),

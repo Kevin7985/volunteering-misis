@@ -13,6 +13,7 @@ import ru.misis.user.model.User;
 import ru.misis.utils.StringGenerator;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -44,7 +45,8 @@ public class AuthServiceImpl implements AuthService {
                     "",
                     "",
                     false,
-                    false
+                    false,
+                    new ArrayList<>()
             );
 
             user = userRepository.save(user);

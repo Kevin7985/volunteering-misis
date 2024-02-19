@@ -1,7 +1,11 @@
 package ru.misis.user.dto;
 
 import org.springframework.stereotype.Component;
+import ru.misis.skill.dto.SkillDto;
 import ru.misis.user.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UserMapper {
@@ -15,11 +19,12 @@ public class UserMapper {
                 userDto.getMiddleName(),
                 "",
                 false,
-                false
+                false,
+                new ArrayList<>()
         );
     }
 
-    public UserDto toUserDto(User user) {
+    public UserDto toUserDto(User user, List<SkillDto> skills) {
         return new UserDto(
                 user.getId(),
                 user.getMisisId(),
@@ -29,7 +34,8 @@ public class UserMapper {
                 user.getMiddleName(),
                 "",
                 user.getIsModerator(),
-                user.getIsStaff()
+                user.getIsStaff(),
+                skills
         );
     }
 }

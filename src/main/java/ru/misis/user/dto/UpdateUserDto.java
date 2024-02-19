@@ -1,8 +1,10 @@
 package ru.misis.user.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.misis.skill.dto.SkillDto;
 import ru.misis.user.exceptions.UserValidation;
+
+import java.util.List;
 
 @Data
 public class UpdateUserDto {
@@ -10,8 +12,9 @@ public class UpdateUserDto {
     private String lastName;
     private String middleName;
     private String about;
+    private List<SkillDto> skills;
 
-    public UpdateUserDto(String firstName, String lastName, String middleName, String about) {
+    public UpdateUserDto(String firstName, String lastName, String middleName, String about, List<SkillDto> skills) {
         if (firstName != null && (firstName.isBlank() || firstName.length() > 255)) {
             throw new UserValidation("Имя пользователя не может быть пустым или содержать больше 255 символов");
         }
@@ -28,5 +31,6 @@ public class UpdateUserDto {
             throw new UserValidation("Описание пользователя не может содержать больше 5000 символов");
         }
         this.about = about;
+        this.skills = skills;
     }
 }

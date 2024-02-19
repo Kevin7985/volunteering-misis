@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ru.misis.error.exceptions.Forbidden;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
+import ru.misis.skill.model.Skill;
 import ru.misis.user.dto.NewUserDto;
 import ru.misis.user.dto.UpdateUserDto;
 import ru.misis.user.dto.UserDto;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -95,6 +97,14 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName() == null ? user.getLastName() : userDto.getLastName());
         user.setMiddleName(userDto.getMiddleName() == null ? user.getMiddleName() : userDto.getMiddleName());
         user.setAbout(userDto.getAbout() == null ? user.getAbout() : userDto.getAbout());
+
+        if (userDto.getSkills() != null) {
+            List <Skill> skills = userDto.getSkills().stream()
+                    .map(item -> validationService.validateSkill(item.getId()))
+                    .collect(Collectors.toList());
+
+            user.setSkills(skills);
+        }
 
         log.info("Обновление данных пользователя (id = " + id + "): " + userDto);
         return mapperService.toUserDto(userRepository.save(user));

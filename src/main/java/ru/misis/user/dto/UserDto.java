@@ -2,7 +2,9 @@ package ru.misis.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.misis.skill.dto.SkillDto;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -17,4 +19,5 @@ public class UserDto {
     private final String about;
     private final Boolean isModerator;
     private final Boolean isStaff;
+    private final List<SkillDto> skills;
 }
