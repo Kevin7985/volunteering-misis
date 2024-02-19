@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.misis.skill.dto.NewSkillDto;
@@ -49,14 +50,14 @@ public class SkillController {
 
     @PatchMapping("/{id}")
     @Operation(summary = "Обновление навыка по идентификатору")
-    public SkillDto updateSkillById(@PathVariable UUID id, @RequestBody UpdateSkillDto skillDto) {
-        return skillService.updateSkillById(id, skillDto);
+    public SkillDto updateSkillById(Authentication auth, @PathVariable UUID id, @RequestBody UpdateSkillDto skillDto) {
+        return skillService.updateSkillById(auth, id, skillDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Удаление навыка по идентификатору")
-    public void deleteSkillById(@PathVariable UUID id) {
-        skillService.deleteSkillById(id);
+    public void deleteSkillById(Authentication auth, @PathVariable UUID id) {
+        skillService.deleteSkillById(auth, id);
     }
 }

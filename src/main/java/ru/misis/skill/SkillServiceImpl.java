@@ -6,7 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import ru.misis.error.exceptions.Forbidden;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
 import ru.misis.skill.dto.NewSkillDto;
@@ -66,7 +69,11 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public SkillDto updateSkillById(UUID id, UpdateSkillDto skillDto) {
+    public SkillDto updateSkillById(Authentication auth, UUID id, UpdateSkillDto skillDto) {
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            throw new Forbidden();
+        }
+
         Skill skill = validationService.validateSkill(id);
 
         skill.setTitle(skillDto.getTitle() == null ? skill.getTitle() : skillDto.getTitle());
@@ -77,7 +84,11 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public void deleteSkillById(UUID id) {
+    public void deleteSkillById(Authentication auth, UUID id) {
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            throw new Forbidden();
+        }
+
         validationService.validateSkill(id);
 
         log.info("Удалён навык с id = " + id);

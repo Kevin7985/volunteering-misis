@@ -14,6 +14,7 @@ import ru.misis.skill.exceptions.SkillNotFound;
 import ru.misis.skill.exceptions.SkillValidation;
 import ru.misis.user.exceptions.UserAlreadyExists;
 import ru.misis.user.exceptions.UserNotFound;
+import ru.misis.user.exceptions.UserValidation;
 
 @RestControllerAdvice
 public class ErrorHandler {
@@ -54,7 +55,8 @@ public class ErrorHandler {
 
     @ExceptionHandler({
             SkillValidation.class,
-            CategoryValidation.class
+            CategoryValidation.class,
+            UserValidation.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError badRequestHandler(final Exception e) {
