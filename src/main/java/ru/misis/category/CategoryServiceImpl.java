@@ -6,11 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import ru.misis.category.dto.CategoryDto;
 import ru.misis.category.dto.NewCategoryDto;
 import ru.misis.category.dto.UpdateCategoryDto;
 import ru.misis.category.model.Category;
+import ru.misis.error.exceptions.Forbidden;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
 import ru.misis.utils.Pagination;
@@ -66,7 +69,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto updateCategoryById(UUID id, UpdateCategoryDto categoryDto) {
+    public CategoryDto updateCategoryById(Authentication auth, UUID id, UpdateCategoryDto categoryDto) {
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            throw new Forbidden();
+        }
+
         Category category = validationService.validateCategory(id);
 
         category.setTitle(categoryDto.getTitle() == null ? category.getTitle() : categoryDto.getTitle());
@@ -77,7 +84,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategoryById(UUID id) {
+    public void deleteCategoryById(Authentication auth, UUID id) {
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            throw new Forbidden();
+        }
+
         validationService.validateCategory(id);
 
         log.info("Удалена категория с id = " + id);
