@@ -1,7 +1,6 @@
 package ru.misis.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,10 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import ru.misis.user.UserRepository;
+import ru.misis.user.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -24,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 public class AuthServiceSecure {
     private static final String BEARER_PREFIX = "Bearer ";
 
+    private final UserRepository userRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
     public Optional<Authentication> authenticate(HttpServletRequest req) {
@@ -34,7 +37,22 @@ public class AuthServiceSecure {
         try {
             String userId = redisTemplate.opsForValue().get(token);
             if (userId != null) {
-                Authentication authentication = createAuth(userId, Role.USER);
+                Optional<User> user = userRepository.findById(UUID.fromString(userId));
+                if (user.isEmpty()) {
+                    return Optional.empty();
+                }
+
+                List<Role> roles = new ArrayList<>(List.of(Role.USER));
+
+                if (user.get().getIsModerator()) {
+                    roles.add(Role.MODERATOR);
+                }
+
+                if (user.get().getIsStaff()) {
+                    roles.add(Role.STAFF);
+                }
+
+                Authentication authentication = createAuth(userId, roles);
                 return Optional.of(authentication);
             }
         } catch (Exception e) {
@@ -64,15 +82,17 @@ public class AuthServiceSecure {
         return Optional.empty();
     }
 
-    private static Authentication createAuth(String user, @NonNull Role... roles) {
-        List<GrantedAuthority> authorities = Stream.of(roles)
+    private static Authentication createAuth(String user, List<Role> roles) {
+        List<GrantedAuthority> authorities = roles.stream()
                 .distinct()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(toList());
         return new UsernamePasswordAuthenticationToken(user, "N/A", authorities);
     }
 
     private enum Role {
-        USER
+        USER,
+        MODERATOR,
+        STAFF
     }
 }

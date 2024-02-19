@@ -6,9 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import ru.misis.error.exceptions.Forbidden;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
+import ru.misis.skill.model.Skill;
 import ru.misis.user.dto.NewUserDto;
 import ru.misis.user.dto.UpdateUserDto;
 import ru.misis.user.dto.UserDto;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -79,20 +84,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUserById(UUID id, UpdateUserDto userDto) {
+    public UserDto updateUserById(Authentication auth, UUID id, UpdateUserDto userDto) {
         User user = validationService.validateUser(id);
+
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            if (!user.getId().equals(UUID.fromString(auth.getName()))) {
+                throw new Forbidden();
+            }
+        }
 
         user.setFirstName(userDto.getFirstName() == null ? user.getFirstName() : userDto.getFirstName());
         user.setLastName(userDto.getLastName() == null ? user.getLastName() : userDto.getLastName());
         user.setMiddleName(userDto.getMiddleName() == null ? user.getMiddleName() : userDto.getMiddleName());
+        user.setAbout(userDto.getAbout() == null ? user.getAbout() : userDto.getAbout());
+
+        if (userDto.getSkills() != null) {
+            List <Skill> skills = userDto.getSkills().stream()
+                    .map(item -> validationService.validateSkill(item.getId()))
+                    .collect(Collectors.toList());
+
+            user.setSkills(skills);
+        }
 
         log.info("Обновление данных пользователя (id = " + id + "): " + userDto);
         return mapperService.toUserDto(userRepository.save(user));
     }
 
     @Override
-    public void deleteUserById(UUID id) {
-        validationService.validateUser(id);
+    public void deleteUserById(Authentication auth, UUID id) {
+        User user = validationService.validateUser(id);
+
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            if (!user.getId().equals(UUID.fromString(auth.getName()))) {
+                throw new Forbidden();
+            }
+        }
 
         log.info("Удаление пользователя по id = " + id);
         userRepository.deleteById(id);

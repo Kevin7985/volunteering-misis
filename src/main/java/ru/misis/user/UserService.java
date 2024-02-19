@@ -1,5 +1,6 @@
 package ru.misis.user;
 
+import org.springframework.security.core.Authentication;
 import ru.misis.user.dto.NewUserDto;
 import ru.misis.user.dto.UpdateUserDto;
 import ru.misis.user.dto.UserDto;
@@ -14,7 +15,7 @@ public interface UserService {
 
     UserDto getUserById(UUID id);
 
-    UserDto updateUserById(UUID id, UpdateUserDto userDto);
+    UserDto updateUserById(Authentication auth, UUID id, UpdateUserDto userDto);
 
-    void deleteUserById(UUID id);
+    void deleteUserById(Authentication auth, UUID id);
 }

@@ -15,6 +15,8 @@ import ru.misis.user.dto.UserDto;
 import ru.misis.user.dto.UserMapper;
 import ru.misis.user.model.User;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MapperService {
@@ -27,10 +29,15 @@ public class MapperService {
     }
 
     public UserDto toUserDto(User user) {
-        return userMapper.toUserDto(user);
+        List<SkillDto> skillDtoList = user.getSkills().stream().map(this::toSkillDto).toList();
+        return userMapper.toUserDto(user, skillDtoList);
     }
 
     public Skill toSkill(NewSkillDto skillDto) {
+        return skillMapper.toSkill(skillDto);
+    }
+
+    public Skill toSkill(SkillDto skillDto) {
         return skillMapper.toSkill(skillDto);
     }
 
