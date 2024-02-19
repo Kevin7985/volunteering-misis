@@ -32,7 +32,7 @@ public class GoogleAuthService {
     @Value("${google.client.secret}")
     private String CLIENT_SECRET;
 
-    @Value("${google.redirect.uri")
+    @Value("${google.redirect.uri}")
     private String REDIRECT_URI;
 
     public Optional<GoogleCredentials> getToken(String code) {
