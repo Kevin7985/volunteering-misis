@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.misis.auth.dto.Authorization;
 import ru.misis.auth.exceptions.AuthFailed;
 import ru.misis.auth.google.GoogleAuthService;
-import ru.misis.auth.google.model.GoogleCredentials;
 import ru.misis.auth.google.model.GoogleProfile;
 import ru.misis.user.UserRepository;
 import ru.misis.user.model.User;
@@ -24,12 +23,8 @@ public class AuthServiceImpl implements AuthService {
     private final RedisTemplate<String, String> redisTemplate;
 
     @Override
-    public Authorization authViaGoogle(String code) {
-        GoogleCredentials auth = googleAuthService.getToken(code).orElseThrow(
-                () -> new AuthFailed("Произошла ошибка при авторизации с помощью Google")
-        );
-
-        GoogleProfile profile = googleAuthService.getGoogleProfile(auth.getAccess_token()).orElseThrow(
+    public Authorization authViaGoogle(String idToken) {
+        GoogleProfile profile = googleAuthService.getGoogleProfile(idToken).orElseThrow(
                 () -> new AuthFailed("Произошла ошибка при авторизации с помощью Google")
         );
 

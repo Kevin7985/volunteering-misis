@@ -19,8 +19,8 @@ public class AuthController {
     @PostMapping("/google")
     @Operation(summary = "Авторизация с помощью Google")
     public Authorization viaGoogle(
-            @RequestParam(required = true) String code
+            @RequestParam(required = true) String idToken
     ) {
-        return authService.authViaGoogle(code);
+        return authService.authViaGoogle(idToken);
     }
 }
