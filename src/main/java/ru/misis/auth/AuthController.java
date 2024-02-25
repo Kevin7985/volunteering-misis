@@ -10,6 +10,7 @@ import ru.misis.auth.dto.Authorization;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Tag(name = "Auth", description = "Методы для получения токена авторизации")
+@CrossOrigin(origins = "*")
 public class AuthController {
     private final AuthService authService;
 

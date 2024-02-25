@@ -23,6 +23,7 @@ import java.util.UUID;
 @Validated
 @Tag(name = "Categories", description = "Методы для работы с категориями событий")
 @SecurityRequirement(name = "Bearer Authentication")
+@CrossOrigin(origins = "*")
 public class CategoryController {
     private final CategoryService categoryService;
 

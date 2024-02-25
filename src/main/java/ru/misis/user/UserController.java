@@ -22,6 +22,7 @@ import java.util.UUID;
 @Validated
 @RequiredArgsConstructor
 @Tag(name = "Users", description = "Методы для работы с пользователями")
+@CrossOrigin(origins = "*")
 public class UserController {
     private final UserService userService;
 

@@ -23,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Tag(name = "Skills", description = "Работа с навыками на платформе")
 @SecurityRequirement(name = "Bearer Authentication")
+@CrossOrigin(origins = "*")
 public class SkillController {
     private final SkillService skillService;
 
