@@ -39,6 +39,7 @@ public class AuthServiceImpl implements AuthService {
                     profile.getFamily_name(),
                     "",
                     "",
+                    profile.getPicture(),
                     false,
                     false,
                     new ArrayList<>()

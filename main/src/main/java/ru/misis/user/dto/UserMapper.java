@@ -18,6 +18,7 @@ public class UserMapper {
                 userDto.getLastName(),
                 userDto.getMiddleName(),
                 "",
+                "",
                 false,
                 false,
                 new ArrayList<>()
@@ -33,6 +34,7 @@ public class UserMapper {
                 user.getLastName(),
                 user.getMiddleName(),
                 "",
+                user.getAvatar(),
                 user.getIsModerator(),
                 user.getIsStaff(),
                 skills

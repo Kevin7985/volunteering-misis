@@ -17,6 +17,7 @@ public class UserDto {
     private final String lastName;
     private final String middleName;
     private final String about;
+    private final String avatar;
     private final Boolean isModerator;
     private final Boolean isStaff;
     private final List<SkillDto> skills;

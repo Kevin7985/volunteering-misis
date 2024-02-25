@@ -1,10 +1,18 @@
 version: '3.1'
 services:
+  vkr-fileserver:
+    build: fileServer/
+    image: fileserver
+    container_name: vkr-fileserver
+    ports:
+      - "8081:8081"
+
   redis:
     image: redis
     container_name: redis-container
     ports:
       - "6379:6479"
+
   vkr-db:
     image: postgres:14-alpine
     container_name: vkr-db
@@ -16,7 +24,7 @@ services:
       - POSTGRES_PASSWORD=
 
   vkr-app:
-    build: .
+    build: main/
     image: main
     container_name: vkr-app
     ports:
@@ -31,9 +39,7 @@ services:
       - DB_PORT=
       - DB_USER=
       - DB_PASSWORD=
-      - GOOGLE_CLIENT_ID=
-      - GOOGLE_CLIENT_SECRET=
-      - GOOGLE_REDIRECT_URI=
       - REDIS_HOST=
       - REDIS_PORT=
       - REDIS_PASSWORD=
+      - FILESERVER_URL=
