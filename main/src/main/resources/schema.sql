@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS events (
     id UUID DEFAULT uuid_generate_v4(),
     title VARCHAR(255) NOT NULL,
     description VARCHAR(5000),
-    owner_id UUID NOT NULL,
+    creator_id UUID NOT NULL,
     category_id UUID,
     location VARCHAR(1000),
     start_date TIMESTAMP WITHOUT TIME ZONE,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS events (
     state VARCHAR(50),
     created_at TIMESTAMP WITHOUT TIME ZONE,
     CONSTRAINT PK_EVENT PRIMARY KEY (id),
-    CONSTRAINT FK_USER_FOR_EVENT FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT FK_USER_FOR_EVENT FOREIGN KEY (creator_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT FK_CATEGORY_FOR_EVENT FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
 );
 
