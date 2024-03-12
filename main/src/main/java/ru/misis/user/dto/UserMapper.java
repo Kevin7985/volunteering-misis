@@ -33,7 +33,7 @@ public class UserMapper {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getMiddleName(),
-                "",
+                user.getAbout(),
                 user.getAvatar(),
                 user.getIsModerator(),
                 user.getIsStaff(),
