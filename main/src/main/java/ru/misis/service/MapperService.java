@@ -6,6 +6,10 @@ import ru.misis.category.dto.CategoryDto;
 import ru.misis.category.dto.CategoryMapper;
 import ru.misis.category.dto.NewCategoryDto;
 import ru.misis.category.model.Category;
+import ru.misis.event.dto.EventDto;
+import ru.misis.event.dto.EventMapper;
+import ru.misis.event.dto.NewEventDto;
+import ru.misis.event.model.Event;
 import ru.misis.skill.dto.NewSkillDto;
 import ru.misis.skill.dto.SkillDto;
 import ru.misis.skill.dto.SkillMapper;
@@ -23,6 +27,7 @@ public class MapperService {
     private final UserMapper userMapper;
     private final SkillMapper skillMapper;
     private final CategoryMapper categoryMapper;
+    private final EventMapper eventMapper;
 
     public User toUser(NewUserDto userDto) {
         return userMapper.toUser(userDto);
@@ -51,5 +56,18 @@ public class MapperService {
 
     public CategoryDto toCategoryDto(Category category) {
         return categoryMapper.toCategoryDto(category);
+    }
+
+    public Event toEvent(NewEventDto eventDto, User user, Category category, List<Skill> skills) {
+        return eventMapper.toEvent(eventDto, user, category, skills);
+    }
+
+    public EventDto toEventDto(Event event) {
+        return eventMapper.toEventDto(
+                event,
+                toUserDto(event.getCreator()),
+                toCategoryDto(event.getCategory()),
+                event.getSkills().stream().map(this::toSkillDto).toList()
+        );
     }
 }
