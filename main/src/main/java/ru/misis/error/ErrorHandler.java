@@ -10,6 +10,8 @@ import ru.misis.category.exceptions.CategoryNotFound;
 import ru.misis.category.exceptions.CategoryValidation;
 import ru.misis.error.exceptions.Forbidden;
 import ru.misis.error.model.ApiError;
+import ru.misis.event.exceptions.EventNotFound;
+import ru.misis.event.exceptions.EventValidation;
 import ru.misis.skill.exceptions.SkillNotFound;
 import ru.misis.skill.exceptions.SkillValidation;
 import ru.misis.user.exceptions.UserAlreadyExists;
@@ -43,7 +45,8 @@ public class ErrorHandler {
     @ExceptionHandler({
             UserNotFound.class,
             SkillNotFound.class,
-            CategoryNotFound.class
+            CategoryNotFound.class,
+            EventNotFound.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError entityNotFoundHandler(final Exception e) {
@@ -56,7 +59,8 @@ public class ErrorHandler {
     @ExceptionHandler({
             SkillValidation.class,
             CategoryValidation.class,
-            UserValidation.class
+            UserValidation.class,
+            EventValidation.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError badRequestHandler(final Exception e) {
