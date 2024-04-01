@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import ru.misis.error.exceptions.Forbidden;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
+import ru.misis.skill.SkillRepository;
+import ru.misis.skill.dto.SkillDto;
 import ru.misis.skill.model.Skill;
 import ru.misis.user.dto.NewUserDto;
 import ru.misis.user.dto.UpdateUserDto;
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final MapperService mapperService;
     private final ValidationService validationService;
     private final UserRepository userRepository;
+    private final SkillRepository skillRepository;
 
     @Override
     public UserDto createUser(NewUserDto userDto) {
@@ -99,9 +102,8 @@ public class UserServiceImpl implements UserService {
         user.setAbout(userDto.getAbout() == null ? user.getAbout() : userDto.getAbout());
 
         if (userDto.getSkills() != null) {
-            List <Skill> skills = userDto.getSkills().stream()
-                    .map(item -> validationService.validateSkill(item.getId()))
-                    .collect(Collectors.toList());
+            List<UUID> skillIds = userDto.getSkills().stream().map(SkillDto::getId).toList();
+            List <Skill> skills = skillRepository.findAllById(skillIds);
 
             user.setSkills(skills);
         }
