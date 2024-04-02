@@ -12,6 +12,8 @@ import ru.misis.error.exceptions.Forbidden;
 import ru.misis.error.model.ApiError;
 import ru.misis.event.exceptions.EventNotFound;
 import ru.misis.event.exceptions.EventValidation;
+import ru.misis.participant.exceptions.EventParticipantNotFound;
+import ru.misis.participant.exceptions.NoPlaceLeft;
 import ru.misis.skill.exceptions.SkillNotFound;
 import ru.misis.skill.exceptions.SkillValidation;
 import ru.misis.user.exceptions.UserAlreadyExists;
@@ -32,7 +34,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler({
-            UserAlreadyExists.class
+            UserAlreadyExists.class,
+            NoPlaceLeft.class
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError conflictHandler(final Exception e) {
@@ -46,7 +49,8 @@ public class ErrorHandler {
             UserNotFound.class,
             SkillNotFound.class,
             CategoryNotFound.class,
-            EventNotFound.class
+            EventNotFound.class,
+            EventParticipantNotFound.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError entityNotFoundHandler(final Exception e) {

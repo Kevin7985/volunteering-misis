@@ -8,6 +8,7 @@ import ru.misis.category.model.Category;
 import ru.misis.event.EventRepository;
 import ru.misis.event.exceptions.EventNotFound;
 import ru.misis.event.model.Event;
+import ru.misis.participant.EventParticipantRepository;
 import ru.misis.skill.SkillRepository;
 import ru.misis.skill.exceptions.SkillNotFound;
 import ru.misis.skill.model.Skill;
