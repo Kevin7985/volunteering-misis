@@ -10,6 +10,9 @@ import ru.misis.event.dto.EventDto;
 import ru.misis.event.dto.EventMapper;
 import ru.misis.event.dto.NewEventDto;
 import ru.misis.event.model.Event;
+import ru.misis.participant.dto.EventParticipantDto;
+import ru.misis.participant.dto.EventParticipantMapper;
+import ru.misis.participant.model.EventParticipant;
 import ru.misis.skill.dto.NewSkillDto;
 import ru.misis.skill.dto.SkillDto;
 import ru.misis.skill.dto.SkillMapper;
@@ -28,6 +31,7 @@ public class MapperService {
     private final SkillMapper skillMapper;
     private final CategoryMapper categoryMapper;
     private final EventMapper eventMapper;
+    private final EventParticipantMapper eventParticipantMapper;
 
     public User toUser(NewUserDto userDto) {
         return userMapper.toUser(userDto);
@@ -68,6 +72,14 @@ public class MapperService {
                 toUserDto(event.getCreator()),
                 toCategoryDto(event.getCategory()),
                 event.getSkills().stream().map(this::toSkillDto).toList()
+        );
+    }
+
+    public EventParticipantDto toEventParticipantDto(EventParticipant participant) {
+        return eventParticipantMapper.toEventParticipantDto(
+                participant,
+                toUserDto(participant.getUser()),
+                toEventDto(participant.getEvent())
         );
     }
 }
