@@ -16,6 +16,8 @@ import ru.misis.participant.exceptions.EventParticipantNotFound;
 import ru.misis.participant.exceptions.NoPlaceLeft;
 import ru.misis.skill.exceptions.SkillNotFound;
 import ru.misis.skill.exceptions.SkillValidation;
+import ru.misis.task.exceptions.EventTaskNotFound;
+import ru.misis.task.exceptions.EventTaskValidation;
 import ru.misis.user.exceptions.UserAlreadyExists;
 import ru.misis.user.exceptions.UserNotFound;
 import ru.misis.user.exceptions.UserValidation;
@@ -50,7 +52,8 @@ public class ErrorHandler {
             SkillNotFound.class,
             CategoryNotFound.class,
             EventNotFound.class,
-            EventParticipantNotFound.class
+            EventParticipantNotFound.class,
+            EventTaskNotFound.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError entityNotFoundHandler(final Exception e) {
@@ -64,7 +67,8 @@ public class ErrorHandler {
             SkillValidation.class,
             CategoryValidation.class,
             UserValidation.class,
-            EventValidation.class
+            EventValidation.class,
+            EventTaskValidation.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError badRequestHandler(final Exception e) {
