@@ -8,10 +8,12 @@ import ru.misis.category.model.Category;
 import ru.misis.event.EventRepository;
 import ru.misis.event.exceptions.EventNotFound;
 import ru.misis.event.model.Event;
-import ru.misis.participant.EventParticipantRepository;
 import ru.misis.skill.SkillRepository;
 import ru.misis.skill.exceptions.SkillNotFound;
 import ru.misis.skill.model.Skill;
+import ru.misis.task.EventTaskRepository;
+import ru.misis.task.exceptions.EventTaskNotFound;
+import ru.misis.task.model.EventTask;
 import ru.misis.user.UserRepository;
 import ru.misis.user.exceptions.UserNotFound;
 import ru.misis.user.model.User;
@@ -25,6 +27,7 @@ public class ValidationService {
     private final SkillRepository skillRepository;
     private final CategoryRepository categoryRepository;
     private final EventRepository eventRepository;
+    private final EventTaskRepository eventTaskRepository;
 
     public User validateUser(UUID id) {
         return userRepository.findById(id).orElseThrow(
@@ -47,6 +50,18 @@ public class ValidationService {
     public Event validateEvent(UUID id) {
         return eventRepository.findById(id).orElseThrow(
                 () -> new EventNotFound("Мероприятие с id = " + id + " не найдено")
+        );
+    }
+
+    public EventTask validateTaskByIdAndEventId(UUID id, UUID eventId) {
+        return eventTaskRepository.findByIdAndEventId(id, eventId).orElseThrow(
+                () -> new EventTaskNotFound("Задача к мероприятию (id = " + eventId + ") с id = " + id + " не найдена")
+        );
+    }
+
+    public EventTask validateTaskById(UUID id) {
+        return eventTaskRepository.findById(id).orElseThrow(
+                () -> new EventTaskNotFound("Задача с id = " + id + " не найдена")
         );
     }
 }

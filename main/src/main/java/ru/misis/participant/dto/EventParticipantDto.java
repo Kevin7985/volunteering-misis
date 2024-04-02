@@ -6,8 +6,6 @@ import ru.misis.event.dto.EventDto;
 import ru.misis.participant.model.ParticipantRole;
 import ru.misis.user.dto.UserDto;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 public class EventParticipantDto {
