@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.misis.user.dto.NewUserDto;
 import ru.misis.user.dto.UpdateUserDto;
 import ru.misis.user.dto.UserDto;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class UserController {
     @GetMapping
     @Operation(summary = "Поиск пользователей")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<UserDto> findUsers(
+    public ListResponse<UserDto> findUsers(
             @RequestParam(required = false) String email,
             @RequestParam(defaultValue = "0") @Min(0) Integer from,
             @RequestParam(defaultValue = "20") @Min(1) Integer size) {

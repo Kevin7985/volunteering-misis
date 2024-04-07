@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import ru.misis.user.dto.NewUserDto;
 import ru.misis.user.dto.UpdateUserDto;
 import ru.misis.user.dto.UserDto;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import java.util.UUID;
 public interface UserService {
     UserDto createUser(NewUserDto userDto);
 
-    List<UserDto> findUsers(String email, Integer from, Integer size);
+    ListResponse<UserDto> findUsers(String email, Integer from, Integer size);
 
     UserDto getUserById(UUID id);
 

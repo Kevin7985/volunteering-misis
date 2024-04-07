@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.misis.skill.dto.NewSkillDto;
 import ru.misis.skill.dto.SkillDto;
 import ru.misis.skill.dto.UpdateSkillDto;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class SkillController {
 
     @GetMapping
     @Operation(summary = "Поиск навыков по названию")
-    public List<SkillDto> findSkills(
+    public ListResponse<SkillDto> findSkills(
             @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") @Min(0) Integer from,
             @RequestParam(defaultValue = "20") @Min(1) Integer size) {

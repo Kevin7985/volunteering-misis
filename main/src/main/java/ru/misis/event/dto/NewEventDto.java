@@ -26,6 +26,8 @@ public class NewEventDto {
 
     private final String location;
 
+    private final String picture;
+
     @FutureOrPresent
     private LocalDateTime startDate;
 

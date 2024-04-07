@@ -17,6 +17,7 @@ import ru.misis.skill.dto.SkillDto;
 import ru.misis.skill.dto.UpdateSkillDto;
 import ru.misis.skill.model.Skill;
 import ru.misis.utils.Pagination;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public List<SkillDto> searchSkills(String title, Integer from, Integer size) {
+    public ListResponse<SkillDto> searchSkills(String title, Integer from, Integer size) {
         List<SkillDto> skillsList = new ArrayList<>();
 
         Pageable pageable;
@@ -57,7 +58,13 @@ public class SkillServiceImpl implements SkillService {
         }
 
         log.info(String.format("Поиск навыков (title = %s, from = %d, size = %d)", title, from, size));
-        return skillsList;
+
+        List<Skill> res = title == null ? skillRepository.findAll() : skillRepository.search(title);
+
+        return new ListResponse<>(
+                (long) res.size(),
+                skillsList
+        );
     }
 
     @Override

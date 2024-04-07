@@ -17,6 +17,7 @@ import ru.misis.error.exceptions.Forbidden;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
 import ru.misis.utils.Pagination;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> searchCategories(String title, Integer from, Integer size) {
+    public ListResponse<CategoryDto> searchCategories(String title, Integer from, Integer size) {
         List<CategoryDto> categoriesList = new ArrayList<>();
 
         Pageable pageable;
@@ -56,8 +57,13 @@ public class CategoryServiceImpl implements CategoryService {
                     .toList());
         }
 
+        List<Category> res = title == null ? categoryRepository.findAll() : categoryRepository.search(title);
+
         log.info(String.format("Поиск категорий (title = %s, from = %d, size = %d)", title, from, size));
-        return categoriesList;
+        return new ListResponse<>(
+            (long) res.size(),
+            categoriesList
+        );
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.misis.task.dto.EventTaskDto;
 import ru.misis.task.dto.NewEventTaskDto;
 import ru.misis.task.dto.UpdateEventTaskDto;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class EventTaskController {
 
     @GetMapping("/{eventId}/tasks")
     @Operation(summary = "Получение задач мероприятия")
-    public List<EventTaskDto> searchTasksInEvent(
+    public ListResponse<EventTaskDto> searchTasksInEvent(
             Authentication auth,
             @PathVariable UUID eventId,
             @RequestParam(defaultValue = "0") @Min(0) Integer from,

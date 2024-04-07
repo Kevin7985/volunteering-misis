@@ -12,6 +12,7 @@ import ru.misis.event.dto.EventDto;
 import ru.misis.event.model.EventRelation;
 import ru.misis.participant.dto.EventParticipantDto;
 import ru.misis.participant.dto.UpdateEventParticipantDto;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class EventParticipantController {
     @GetMapping("/events/{eventId}/participants")
     @Tag(name = "Event participants", description = "Методы для работы с участниками мероприятий")
     @Operation(summary = "Получение участников по id мероприятия")
-    public List<EventParticipantDto> getEventParticipants(
+    public ListResponse<EventParticipantDto> getEventParticipants(
             Authentication auth,
             @PathVariable UUID eventId,
             @RequestParam(defaultValue = "0") @Min(0) Integer from,

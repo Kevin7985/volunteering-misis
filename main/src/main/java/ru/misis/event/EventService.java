@@ -5,15 +5,17 @@ import ru.misis.event.dto.EventDto;
 import ru.misis.event.dto.NewEventDto;
 import ru.misis.event.dto.UpdateEventDto;
 import ru.misis.event.model.EventState;
+import ru.misis.utils.models.ListResponse;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public interface EventService {
     public EventDto createEvent(Authentication auth, NewEventDto eventDto);
 
-    public List<EventDto> searchEvents(
+    public ListResponse<EventDto> searchEvents(
             Authentication auth,
             String title,
             List<UUID> creators,
