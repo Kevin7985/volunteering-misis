@@ -14,6 +14,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import ru.misis.error.exceptions.Forbidden;
+import ru.misis.event.EventRepository;
+import ru.misis.event.dto.EventDto;
+import ru.misis.event.model.Event;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
 import ru.misis.user.UserRepository;
@@ -28,6 +31,7 @@ public class UploadServiceImpl implements UploadService {
     private final MapperService mapperService;
     private final ValidationService validationService;
     private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
     @Value("${fileserver.url}")
     private String FILESERVER_URL;
@@ -49,6 +53,24 @@ public class UploadServiceImpl implements UploadService {
         user = userRepository.save(user);
 
         return mapperService.toUserDto(user);
+    }
+
+    @Override
+    public EventDto uploadEventPicture(Authentication auth, UUID id, MultipartFile file) {
+        User user = validationService.validateUser(UUID.fromString(auth.getName()));
+        Event event = validationService.validateEvent(id);
+
+        if (!event.getCreator().getId().equals(user.getId())) {
+            throw new Forbidden();
+        }
+
+        String fileId = uploadFile(file);
+        fileId = FILESERVER_URL + "/file/" + fileId.substring(1, fileId.length() - 1);
+
+        event.setPicture(fileId);
+        event = eventRepository.save(event);
+
+        return mapperService.toEventDto(event);
     }
 
     private String uploadFile(MultipartFile file) {

@@ -45,6 +45,7 @@ public class Event {
     private List<Skill> skills;
 
     private String location;
+    private String picture;
     private LocalDateTime startDate;
     private LocalDateTime finishDate;
     private Integer participantLimit;

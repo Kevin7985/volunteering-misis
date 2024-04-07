@@ -21,6 +21,7 @@ public class EventDto {
     private final CategoryDto category;
     private final List<SkillDto> skills;
     private final String location;
+    private final String picture;
     private final LocalDateTime startDate;
     private final LocalDateTime finishDate;
     private final Integer participantLimit;
