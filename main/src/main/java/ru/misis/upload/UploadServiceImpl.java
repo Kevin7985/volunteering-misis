@@ -19,6 +19,7 @@ import ru.misis.event.dto.EventDto;
 import ru.misis.event.model.Event;
 import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
+import ru.misis.upload.dto.UploadedFileDto;
 import ru.misis.user.UserRepository;
 import ru.misis.user.dto.UserDto;
 import ru.misis.user.model.User;
@@ -46,7 +47,7 @@ public class UploadServiceImpl implements UploadService {
             }
         }
 
-        String fileId = uploadFile(file);
+        String fileId = uploadFileService(file);
         fileId = FILESERVER_URL + "/file/" + fileId.substring(1, fileId.length() - 1);
 
         user.setAvatar(fileId);
@@ -64,7 +65,7 @@ public class UploadServiceImpl implements UploadService {
             throw new Forbidden();
         }
 
-        String fileId = uploadFile(file);
+        String fileId = uploadFileService(file);
         fileId = FILESERVER_URL + "/file/" + fileId.substring(1, fileId.length() - 1);
 
         event.setPicture(fileId);
@@ -73,7 +74,15 @@ public class UploadServiceImpl implements UploadService {
         return mapperService.toEventDto(event);
     }
 
-    private String uploadFile(MultipartFile file) {
+    @Override
+    public UploadedFileDto uploadFile(Authentication auth, MultipartFile file) {
+        String fileId = uploadFileService(file);
+        fileId = FILESERVER_URL + "/file/" + fileId.substring(1, fileId.length() - 1);
+
+        return new UploadedFileDto(fileId);
+    }
+
+    private String uploadFileService(MultipartFile file) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 

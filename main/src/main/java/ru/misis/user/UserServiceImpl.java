@@ -21,6 +21,7 @@ import ru.misis.user.dto.UserDto;
 import ru.misis.user.exceptions.UserAlreadyExists;
 import ru.misis.user.model.User;
 import ru.misis.utils.Pagination;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findUsers(String email, Integer from, Integer size) {
+    public ListResponse<UserDto> findUsers(String email, Integer from, Integer size) {
         List<UserDto> usersList = new ArrayList<>();
 
         Pageable pageable;
@@ -74,7 +75,13 @@ public class UserServiceImpl implements UserService {
         }
 
         log.info(String.format("Поиск пользователей (email = %s, from = %d, size = %d)", email, from, size));
-        return usersList.stream().limit(size).toList();
+
+        List<User> res = email != null ? userRepository.searchUsersByEmail(email) : userRepository.findAll();
+
+        return new ListResponse<>(
+                (long) res.size(),
+                usersList.stream().limit(size).toList()
+        );
     }
 
     @Override

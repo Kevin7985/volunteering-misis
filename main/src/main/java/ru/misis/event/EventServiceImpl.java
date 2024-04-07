@@ -22,8 +22,10 @@ import ru.misis.skill.SkillRepository;
 import ru.misis.skill.dto.SkillDto;
 import ru.misis.skill.model.Skill;
 import ru.misis.user.model.User;
+import ru.misis.utils.models.ListResponse;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,7 +58,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> searchEvents(Authentication auth, String title, List<UUID> creators, List<UUID> categories, List<UUID> skills, String location, LocalDateTime startDate, LocalDateTime finishDate, EventState state, Integer from, Integer size) {
+    public ListResponse<EventDto> searchEvents(Authentication auth, String title, List<UUID> creators, List<UUID> categories, List<UUID> skills, String location, LocalDateTime startDate, LocalDateTime finishDate, EventState state, Integer from, Integer size) {
         User user = validationService.validateUser(UUID.fromString(auth.getName()));
 
         QEvent qEvent = QEvent.event;
@@ -98,7 +100,7 @@ public class EventServiceImpl implements EventService {
 
         log.info("Поиск событий");
         if (skills != null && !skills.isEmpty()) {
-            return query.fetch().stream()
+            List<Event> res = query.fetch().stream()
                     .filter(item -> {
                         List<UUID> eventSkills = item.getSkills().stream().map(Skill::getId).toList();
 
@@ -112,16 +114,24 @@ public class EventServiceImpl implements EventService {
                         }
 
                         return isAny;
-                    })
-                    .skip(from)
-                    .limit(size)
-                    .map(mapperService::toEventDto)
-                    .toList();
+                    }).toList();
+
+            return new ListResponse<>(
+                    (long) res.size(),
+                    res.stream()
+                            .skip(from)
+                            .limit(size)
+                            .map(mapperService::toEventDto)
+                            .toList()
+            );
         }
 
-        return query.offset(from).limit(size).fetch().stream()
-                .map(mapperService::toEventDto)
-                .toList();
+        return new ListResponse<>(
+                query.stream().count(),
+                query.offset(from).limit(size).fetch().stream()
+                        .map(mapperService::toEventDto)
+                        .toList()
+        );
     }
 
     @Override
@@ -162,6 +172,9 @@ public class EventServiceImpl implements EventService {
 
             event.setSkills(skills);
         }
+
+        event.setLocation(eventDto.getLocation() == null ? event.getLocation() : eventDto.getLocation());
+        event.setPicture(eventDto.getPicture() == null ? event.getPicture() : eventDto.getPicture());
 
         event.setStartDate(eventDto.getStartDate() == null ? event.getStartDate() : eventDto.getStartDate());
         event.setFinishDate(eventDto.getFinishDate() == null ? event.getFinishDate() : eventDto.getFinishDate());

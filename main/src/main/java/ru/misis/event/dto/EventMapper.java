@@ -24,7 +24,7 @@ public class EventMapper {
                 category,
                 skills,
                 eventDto.getLocation(),
-                "",
+                eventDto.getPicture(),
                 eventDto.getStartDate(),
                 eventDto.getFinishDate(),
                 eventDto.getParticipantLimit(),

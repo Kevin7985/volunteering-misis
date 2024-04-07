@@ -23,6 +23,7 @@ import ru.misis.service.MapperService;
 import ru.misis.service.ValidationService;
 import ru.misis.user.model.User;
 import ru.misis.utils.Pagination;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class EventParticipantServiceImpl implements EventParticipantService {
     private final EventRepository eventRepository;
 
     @Override
-    public List<EventParticipantDto> getEventParticipants(Authentication auth, UUID eventId, Integer from, Integer size) {
+    public ListResponse<EventParticipantDto> getEventParticipants(Authentication auth, UUID eventId, Integer from, Integer size) {
         User user = validationService.validateUser(UUID.fromString(auth.getName()));
         Event event = validationService.validateEvent(eventId);
 
@@ -63,7 +64,12 @@ public class EventParticipantServiceImpl implements EventParticipantService {
                     .toList());
         }
 
-        return participants;
+        List<EventParticipant> res = repository.findAllByEventId(eventId);
+
+        return new ListResponse<>(
+                (long) res.size(),
+                participants
+        );
     }
 
     @Override

@@ -18,12 +18,13 @@ public class UpdateEventDto {
     private CategoryDto category;
     private List<SkillDto> skills;
     private String location;
+    private String picture;
     private LocalDateTime startDate;
     private LocalDateTime finishDate;
     private Integer participantLimit;
     private EventState state;
 
-    public UpdateEventDto(String title, String description, CategoryDto category, List<SkillDto> skills, String location, LocalDateTime startDate, LocalDateTime finishDate, Integer participantLimit, EventState state) {
+    public UpdateEventDto(String title, String description, CategoryDto category, List<SkillDto> skills, String location, String picture, LocalDateTime startDate, LocalDateTime finishDate, Integer participantLimit, EventState state) {
         if (title != null && (title.isEmpty() || title.length() > 255)) {
             throw new EventValidation("Название мероприятия не может быть короче 1 символа и длинее 255");
         }
@@ -37,6 +38,7 @@ public class UpdateEventDto {
         this.category = category;
         this.skills = skills;
         this.location = location;
+        this.picture = picture;
 
         if (startDate != null && startDate.isBefore(LocalDateTime.now())) {
             throw new EventValidation("Дата начала не может быть раньше текущего момента");

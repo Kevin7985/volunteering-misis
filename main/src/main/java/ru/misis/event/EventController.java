@@ -14,8 +14,11 @@ import ru.misis.event.dto.EventDto;
 import ru.misis.event.dto.NewEventDto;
 import ru.misis.event.dto.UpdateEventDto;
 import ru.misis.event.model.EventState;
+import ru.misis.utils.models.ListResponse;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +41,7 @@ public class EventController {
 
     @GetMapping
     @Operation(summary = "Поиск по мероприятиям")
-    public List<EventDto> findEvents(
+    public ListResponse<EventDto> findEvents(
             Authentication auth,
             @RequestParam(required = false) String title,
             @RequestParam(required = false, defaultValue = "") List<UUID> creators,
@@ -51,6 +54,7 @@ public class EventController {
             @RequestParam(defaultValue = "0") @Min(0) Integer from,
             @RequestParam(defaultValue = "20") @Min(1) Integer size
             ) {
+
         return eventService.searchEvents(
                 auth,
                 title,

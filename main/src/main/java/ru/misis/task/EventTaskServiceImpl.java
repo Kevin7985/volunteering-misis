@@ -23,6 +23,7 @@ import ru.misis.task.exceptions.EventTaskValidation;
 import ru.misis.task.model.EventTask;
 import ru.misis.user.model.User;
 import ru.misis.utils.Pagination;
+import ru.misis.utils.models.ListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class EventTaskServiceImpl implements EventTaskService {
     }
 
     @Override
-    public List<EventTaskDto> searchTasks(Authentication auth, UUID eventId, Integer from, Integer size) {
+    public ListResponse<EventTaskDto> searchTasks(Authentication auth, UUID eventId, Integer from, Integer size) {
         User user = validationService.validateUser(UUID.fromString(auth.getName()));
         Event event = validationService.validateEvent(eventId);
 
@@ -82,8 +83,13 @@ public class EventTaskServiceImpl implements EventTaskService {
                     .toList());
         }
 
+        List<EventTask> res = repository.findByEventId(eventId);
+
         log.info("Получение списка задач мероприятия");
-        return eventTasks;
+        return new ListResponse<>(
+            (long) res.size(),
+            eventTasks
+        );
     }
 
     @Override
