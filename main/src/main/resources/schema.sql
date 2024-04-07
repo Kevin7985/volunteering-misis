@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS events (
     creator_id UUID NOT NULL,
     category_id UUID,
     location VARCHAR(1000),
+    picture VARCHAR(1000),
     start_date TIMESTAMP WITHOUT TIME ZONE,
     finish_date TIMESTAMP WITHOUT TIME ZONE,
     participant_limit INTEGER,

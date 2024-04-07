@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.misis.event.dto.EventDto;
 import ru.misis.user.dto.UserDto;
 
 import java.util.UUID;
@@ -26,5 +27,14 @@ public class UploadController {
             @PathVariable UUID id,
             @RequestPart("file") MultipartFile file) {
         return uploadService.uploadUserAvatar(auth, id, file);
+    }
+
+    @PostMapping(value = "/events/{id}/update-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Tag(name = "Events")
+    public EventDto updateEventPicture(
+            Authentication auth,
+            @PathVariable UUID id,
+            @RequestPart("file") MultipartFile file) {
+        return uploadService.uploadEventPicture(auth, id, file);
     }
 }
