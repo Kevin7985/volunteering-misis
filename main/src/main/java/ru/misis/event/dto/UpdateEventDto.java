@@ -15,6 +15,7 @@ import java.util.List;
 public class UpdateEventDto {
     private String title;
     private String description;
+    private String volunteerFuncs;
     private CategoryDto category;
     private List<SkillDto> skills;
     private String location;
@@ -24,7 +25,7 @@ public class UpdateEventDto {
     private Integer participantLimit;
     private EventState state;
 
-    public UpdateEventDto(String title, String description, CategoryDto category, List<SkillDto> skills, String location, String picture, LocalDateTime startDate, LocalDateTime finishDate, Integer participantLimit, EventState state) {
+    public UpdateEventDto(String title, String description, String volunteerFuncs, CategoryDto category, List<SkillDto> skills, String location, String picture, LocalDateTime startDate, LocalDateTime finishDate, Integer participantLimit, EventState state) {
         if (title != null && (title.isEmpty() || title.length() > 255)) {
             throw new EventValidation("Название мероприятия не может быть короче 1 символа и длинее 255");
         }
@@ -35,6 +36,7 @@ public class UpdateEventDto {
         }
         this.description = description;
 
+        this.volunteerFuncs = volunteerFuncs;
         this.category = category;
         this.skills = skills;
         this.location = location;

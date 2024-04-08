@@ -17,6 +17,7 @@ public class EventDto {
     private final UUID id;
     private final String title;
     private final String description;
+    private final String volunteerFuncs;
     private final UserDto creator;
     private final CategoryDto category;
     private final List<SkillDto> skills;

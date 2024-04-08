@@ -160,6 +160,7 @@ public class EventServiceImpl implements EventService {
 
         event.setTitle(eventDto.getTitle() == null ? event.getTitle() : eventDto.getTitle());
         event.setDescription(eventDto.getDescription() == null ? event.getDescription() : eventDto.getDescription());
+        event.setVolunteerFuncs(eventDto.getVolunteerFuncs() == null ? event.getVolunteerFuncs() : eventDto.getVolunteerFuncs());
 
         if (eventDto.getCategory() != null) {
             Category category = validationService.validateCategory(eventDto.getCategory().getId());

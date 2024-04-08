@@ -24,6 +24,7 @@ public class Event {
 
     private String title;
     private String description;
+    private String volunteerFuncs;
 
     @ManyToOne
     @JoinColumn(name = "creator_id")
