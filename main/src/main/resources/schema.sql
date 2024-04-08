@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS events (
     id UUID DEFAULT uuid_generate_v4(),
     title VARCHAR(255) NOT NULL,
     description VARCHAR(5000),
+    volunteer_funcs VARCHAR(5000),
     creator_id UUID NOT NULL,
     category_id UUID,
     location VARCHAR(1000),

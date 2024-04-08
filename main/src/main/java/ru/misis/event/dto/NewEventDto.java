@@ -21,6 +21,9 @@ public class NewEventDto {
     @Size(max = 5000)
     private final String description;
 
+    @Size(max = 5000)
+    private final String volunteerFuncs;
+
     private final UUID categoryId;
     private final List<UUID> skills;
 
